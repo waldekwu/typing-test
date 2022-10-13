@@ -115,6 +115,11 @@ h2.subtitle {
   margin-bottom: 10px;
 }
 
+.levelModal {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 .nameModal input[type="text"]{
   border: 2px solid grey;
   border-radius: 15px;

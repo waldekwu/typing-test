@@ -7,8 +7,10 @@ const quoteEle = document.getElementById("quote");
 const greetEle = document.getElementById("greetUser");
 
 const nameModalEle = document.querySelector(".nameModal");
+const levelModalEle = document.querySelector(".levelModal")
 
 nameModalEle.style.display = 'none';
+levelModalEle.style.display = 'none';
 userInputBox.style.display = 'none';
 messages.style.display = 'none';
 resetBtn.style.display = 'none';
@@ -29,12 +31,23 @@ function htmlEncode(str) {
 // generating words
 const makeword = (length) => {
     let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let level = getAndSetLevel();
+    let characters = characters_dict[level];
     let charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+const getAndSetLevel = () => {
+    return document.querySelector('input[name="levelForm"]:checked')?.value || "one";
+}
+
+const characters_dict = {
+    "one" : "abcdefghijklmnopqrstuvwxyz",
+    "two" : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    "three" : "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 }
 
 // making the quote from the words
@@ -60,6 +73,7 @@ startBtn.addEventListener("click", () => {
     userInputBox.style.display = 'block';
     userInput.style.display = 'inline';
     startBtn.style.display = 'none';
+    levelModalEle.style.display = "none";
     resetBtn.style.display = 'inline-block';
 
     const spanWords = extracted_words.map(word => {
@@ -128,6 +142,7 @@ const getAndSetUserName = () => {
     if (name) {
         greetEle.innerText = `Hello, ${name}!`;
         startBtn.style.display = "block";
+        levelModalEle.style.display = "block";
     }
     else {
         nameModalEle.style.display = "block";
@@ -140,6 +155,7 @@ nameSubmitBtn.addEventListener("click", () => {
         localStorage.setItem("typerName", nameInput.value);
         nameModalEle.style.display = "none";
         startBtn.style.display = "block";
+        levelModalEle.style.display = "block";
         getAndSetUserName();
     }
     else {
